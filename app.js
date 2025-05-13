@@ -18,19 +18,16 @@ const light = new THREE.HemisphereLight(0xffffff, 0x444444);
 scene.add(light);
 
 const loader = new GLTFLoader();
-let partOffset = 0;
+let conveyorCount = 0;
 
-function addPart(file) {
-  loader.load(`models/${file}`, gltf => {
-    const part = gltf.scene;
-    part.position.x = partOffset;
-    scene.add(part);
-    partOffset += 1.5;
+document.getElementById('add-conveyor').onclick = () => {
+  loader.load('models/conveyor.glb', gltf => {
+    const conveyor = gltf.scene;
+    conveyor.position.x = conveyorCount * 1.5; // space out each conveyor
+    scene.add(conveyor);
+    conveyorCount++;
   });
-}
-
-document.getElementById('add-upright').onclick = () => addPart('upright.glb');
-document.getElementById('add-beam').onclick = () => addPart('beam.glb');
+};
 
 function animate() {
   requestAnimationFrame(animate);
