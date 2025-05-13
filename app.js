@@ -14,20 +14,21 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-const light = new THREE.HemisphereLight(0xffffff, 0x444444);
-scene.add(light);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
 
 const loader = new GLTFLoader();
-let conveyorCount = 0;
 
-document.getElementById('add-conveyor').onclick = () => {
-  loader.load('models/conveyor.glb', gltf => {
-    const conveyor = gltf.scene;
-    conveyor.position.x = conveyorCount * 1.5; // space out each conveyor
-    scene.add(conveyor);
-    conveyorCount++;
-  });
-};
+loader.load('models/conveyor.glb',
+  gltf => {
+    const model = gltf.scene;
+    scene.add(model);
+  },
+  undefined,
+  error => {
+    console.error('Failed to load model:', error);
+  }
+);
 
 function animate() {
   requestAnimationFrame(animate);
